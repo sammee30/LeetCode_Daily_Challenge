@@ -1,0 +1,25 @@
+class Solution:
+    def change(self, amount: int, coins: List[int]) -> int:
+        dp = {}
+        def solve(i, amount):
+
+            if i == 0 :
+                if amount % coins[0] == 0:
+                    return 1
+                else:
+                    return 0
+
+            if (i, amount) in dp:
+                return dp[(i, amount)]
+
+            take = 0
+            nottake = 0
+
+            if amount - coins[i] >= 0:
+                take += solve(i, amount - coins[i])
+            nottake += solve(i-1, amount)
+
+            dp[(i, amount)] = take + nottake
+            return dp[(i, amount)]
+
+        return solve(len(coins)-1, amount)
