@@ -1,0 +1,32 @@
+class Solution:
+    def validPartition(self, nums: List[int]) -> bool:
+        n = len(nums)
+        dp = {}
+        def solve(i):
+
+            if i == n:
+                return True
+            
+            if i in dp:
+                return dp[i]
+
+            if i+1<n and nums[i] == nums[i+1] :      #for exaclty 2 equal
+                if solve(i+2):
+                    dp[i] = True
+                    return True
+                
+                if i+2<n and nums[i+1] == nums[i+2]:    #for exclty 3 equal
+                    if solve(i+3) :
+                        dp[i] = True
+                        return True
+            
+            if i+2<n and nums[i]+1 == nums[i+1] and nums[i+1]+1 == nums[i+2]: 
+                                                        #exactly 3 consecutive increasing
+                if solve(i+3) :
+                    dp[i] = True
+                    return True
+
+            dp[i] = False
+            return False
+        
+        return solve(0)
